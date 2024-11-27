@@ -1,16 +1,18 @@
+'''
 # The example function below keeps track of the opponent's history and plays whatever the opponent played two plays ago. It is not a very good player so you will need to change the code to pass the challenge.
+'''
 import numpy as np
 import random
 
 
 
 
-def player(prev_play="", opponent_history=[],my_prev="",q_table=[],my_wins=0,prev_state=()):
+def player(prev_play="", opponent_history=[],my_prev="",q_table=[],my_wins=0,prev_state=(),epislon=0.5):
 
 
     l_rate=0.1;
     discount=0.85;
-    epislon=0.5;
+   
     reward=0
     start_epislon=1
     #at half the total number of matches.
@@ -37,8 +39,8 @@ def player(prev_play="", opponent_history=[],my_prev="",q_table=[],my_wins=0,pre
         my_prev= strs[random.randint(0,2)]
         return my_prev
     
-    if(q_table==[]):
-        q_table==np.random.uniform(low=-2,high=1,size=(3,3,3)) 
+    if not q_table:
+        q_table=np.random.uniform(low=-2,high=1,size=(3,3,3)) 
         
 
 
@@ -56,7 +58,8 @@ def player(prev_play="", opponent_history=[],my_prev="",q_table=[],my_wins=0,pre
             win_state=2
             my_wins+=1
             
-    elif prev_play == "P" and my_prev == "R" or prev_play == "R" and my_prev == "S" or prev_play == "S" and my_prev == "P":
+    # elif (prev_play == "P" and my_prev == "R") or (prev_play == "R" and my_prev == "S") or (prev_play == "S" and my_prev == "P"):
+    else:
             
            reward=-2
            win_state=0
