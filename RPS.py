@@ -6,7 +6,7 @@
 import numpy as np
 import random
 
-def player(prev_play="", opponent_history=[], my_prev=[], q_table=[], my_wins=0, prev_state=[], epsilon=[0.5]):
+def player(prev_play="", opponent_history=[], my_prev=[], q_table=[], my_wins=[0], prev_state=[], epsilon=[0.5]):
     l_rate = 0.1
     discount = 0.85
     reward = 0
@@ -36,12 +36,22 @@ def player(prev_play="", opponent_history=[], my_prev=[], q_table=[], my_wins=0,
          (my_prev[0] == "S" and prev_play == "P"):
         reward = 1    # Win
         win_state = 2
-        my_wins += 1
+        my_wins[0] = my_wins[0]+1
+    
+    
+    
     else:
         reward = -1   # Loss
         win_state = 0
+    #if the win rate is greater or equal to 60% for every 1000 games the reward will be more
+    
+    if (len(opponent_history)%500==0 and my_wins[0]/len(opponent_history)>=0.6):
+
+        reward=2
     
     new_state = [ints[prev_play], win_state]
+    # new_state = [ints[my_prev[0]], win_state]
+
     
     # Update Q-table if enough history exists
     if len(opponent_history) >= 2:
